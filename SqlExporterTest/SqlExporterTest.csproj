@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleApp2\SqlExporter.csproj" />
+    <ProjectReference Include="..\SqlExporterApp\SqlExporter.csproj" />
   </ItemGroup>
 
 </Project>
