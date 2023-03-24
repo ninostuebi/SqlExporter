@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlExporter", "SqlExporterApp\SqlExporter.csproj", "{EF50CB80-1562-4634-B5EF-C4ED0073BEAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlExporter", "SqlExporterApp\SqlExporter.csproj", "{EF50CB80-1562-4634-B5EF-C4ED0073BEAE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlExporterTest", "SqlExporterTest\SqlExporterTest.csproj", "{831E37B4-D2B5-47F1-B931-9951E5AD4F5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlExporterTest", "SqlExporterTest\SqlExporterTest.csproj", "{831E37B4-D2B5-47F1-B931-9951E5AD4F5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{75F7F113-141A-4AE4-8CEC-5EEE095D84B3}"
+	ProjectSection(SolutionItems) = preProject
+		LICENSE.txt = LICENSE.txt
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
