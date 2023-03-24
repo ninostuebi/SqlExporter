@@ -1,0 +1,16 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "SqlExporter SingleRun": {
+      "commandName": "Project",
+      "commandLineArgs": "-e CSV --query \"select 1,2,3,'blblb dlfkj'\" --connectionString \"Server=localhost\\SQLEXPRESS;Database=test_db;Integrated Security=true;TrustServerCertificate=true\" -p \"C:\\temp\\sqlexporter\\{0}\\{1}\\{2}\\{3}\\{4:yyyy-MM-dd_HH-mm-ss}_file.txt\""
+    },
+    "SqlExporter Template": {
+      "commandName": "Project",
+      "commandLineArgs": "--template \"..\\..\\..\\SampleTemplate.xml\""
+    }
+  }
+}

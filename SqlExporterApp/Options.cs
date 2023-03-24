@@ -8,28 +8,41 @@ using CommandLine;
 
 namespace SqlExporter
 {
+    public enum configMode
+    {
+        
+    }
     public class Options
     {
-        //[Option('j', "job", Required = false, HelpText = "id of job to be processed")]
-        //public string jobId { get; set; }
-        //[Option('r', "recursive", Required = false, HelpText = "if set all subfolders will be searched as well")]
-        //public bool recursive { get; set; }
-        //[Option('n', "maxfile", Required = false, HelpText = "if set other than 0 only first n files will be imported", Default = 0)]
-        //public int maxfilenum { get; set; }
-        //[Option('s', "source", Required = true, HelpText = "", Default = "C:\temp")]
-        //public string source { get; set; }
+        [Option('t', "template", Required = true, HelpText = "path to template file, cannot be combined with any other parameter",SetName ="template")]
+        public string templatePath { get; set; }
+
+        [Option('s', "serverName", Required = false, HelpText = "serverName can be used in filepattern with index 0", SetName = "single_call",Default ="")]
+        public string serverName { get; set; }
+        [Option('i', "instanceName", Required = false, HelpText = "instanceName can be used in filepattern with index 1", SetName = "single_call", Default = "")]
+        public string instanceName { get; set; }
+        [Option('v', "stageName", Required = false, HelpText = "stageName can be used in filepattern with index 2", SetName = "single_call", Default = "")]
+        public string stageName { get; set; }
+        [Option('c', "connectionString", Required = true, HelpText = "Enter mssql connectionString as needed by DbDriver", SetName = "single_call")]
+        public string connectionString { get; set; }
+        
+        [Option('n', "queryname", Required = false, HelpText = "queryname can be used in filepattern with index 3", SetName = "single_call", Default = "")]
+        public string queryname { get; set; }
+        [Option('p', "filenamepattern", Required = true, HelpText = "Enter filename pattern using string.Format syntax of c# ie: C:\\export\\{0}\\{1}_{2}\\{4:yyyy-MM-dd}_{5}.txt", SetName = "single_call")]
+        public string filenamepattern { get; set; }
+        [Option('e', "exporttype", Required = true, HelpText = "Enter filename pattern using string.Format syntax", SetName = "single_call")]
+        public ExportType exporttype { get; set; }
+        [Option('q', "query", Required = true, HelpText = "SQL Query which should be executed against target database and output will be exportet - supported Values:  CSV,XMLperRow or FilePerRow", SetName = "single_call")]
+        public string query { get; set; }
+        [Option('a', "append", Required = false, HelpText = "define if content should be added in case file already exists", SetName = "single_call",Default = false)]
+        public bool append { get; set; }
+
+
+
+
         //[Option('l', "log", Required = false, HelpText = "")]
         //public string logfiletarget { get; set; }
-        //[Option('c', "connection", Required = true, HelpText = "")]
-        //public string connection { get; set; }
-
-        //[Option('f', "archiveNo", Required = false, HelpText = "if set NO Events will be moved to archive folder")]
-        //public bool archiveNo { get; set; }
-        //[Option('g', "archiveStorno", Required = false, HelpText = "if set ST Events will be moved to archive folder")]
-        //public bool archiveStorno { get; set; }
-        //[Option('h', "archiveOld", Required = false, HelpText = "if set past Events will be moved to archive folder ")]
-        //public bool archiveOld { get; set; }
-        //[Option('i', "archiveAb", Required = false, HelpText = "if set AB Events will be moved to archive folder")]
-        //public bool archiveAb { get; set; }
+       
+       
     }
 }

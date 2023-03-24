@@ -74,7 +74,7 @@ namespace SqlExporter
             var root = doc.CreateElement(exportConfig.queryname);
             for (int i = 0; i < header.Count; i++)
             {
-                var a = doc.CreateElement(header[i]);
+                var a = doc.CreateElement(header[i].Replace(" ","_"));
                 a.InnerText = data[i];
                 root.AppendChild(a);
             }

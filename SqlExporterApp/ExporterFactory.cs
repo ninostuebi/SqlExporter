@@ -19,10 +19,10 @@ namespace SqlExporter
                     return new CSVFileExporter(dbConfig, exportConfig,fileSystem);
                     break;
                 case ExportType.XMLperRow:
-                    throw new NotImplementedException("no Exporter for XMLPerRow defined so far");
+                    return new XMLFileExporter(dbConfig, exportConfig, fileSystem);
                     break;
-                case ExportType.FilePerRow:
-                    throw new NotImplementedException("no Exporter for FilePerRow defined so far");
+                case ExportType.FileperRow:
+                    return new FilePerRowFileExporter(dbConfig,exportConfig,fileSystem);
                     break;
                 default:
                     throw new InvalidEnumArgumentException("Unknown Enum Value");

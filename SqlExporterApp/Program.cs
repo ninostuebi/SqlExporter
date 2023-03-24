@@ -10,9 +10,9 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .Build();
 
 var logger = host.Services.GetRequiredService<ILogger<Program>>();
-logger.LogInformation("Host created.");
+//logger.LogInformation("Host created.");
 
-logger.LogInformation("Hello! This is log message from .NET console app...");
+//logger.LogInformation("Hello! This is log message from .NET console app...");
 
 var worker = new SqlExporter.Worker(logger);
 
@@ -25,8 +25,8 @@ static void HandleParseError(IEnumerable<Error> errs,ILogger log)
 {
     foreach (var error in errs)
     {
-        log.LogError(error.ToString());
+       // log.LogError(error.ToString());
     }
-    throw new NotImplementedException();
+    
 }
 

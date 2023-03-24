@@ -21,9 +21,16 @@ namespace SqlExporter
         public override void FinalizeFile()
         {
             base.FinalizeFile();
-            sw.Flush();
-            sw.Close();
-            fileStream.Close();
+            if(sw != null)
+            {
+                sw.Flush();
+                sw.Close();
+            }
+            if (fileStream != null)
+            {
+                fileStream.Close();
+            }
+             
         }
 
 
@@ -86,7 +93,7 @@ namespace SqlExporter
                 //if string contains separator, needs to be surrounded with "
                 //if string starts or EndsWith whitespace needs to be surrounded as well
                 bool quotate = false;
-                if(column.StartsWith(" ") || column.EndsWith(" ") || column.Contains(SEPARATOR))
+                if(column.StartsWith(" ") || column.EndsWith(" ") || column.Contains(SEPARATOR) || column.Contains('\n') || column.Contains('\r'))
                 {
                     quotate = true;
                 }

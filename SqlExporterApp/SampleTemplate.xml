@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<SqlExporterTemplate>
+	<DBTargets>
+		<DBTarget serverName="local" instanceName="test_db" stageName="prod" connectionString="Server=localhost\SQLEXPRESS;Database=test_db;Integrated Security=true;TrustServerCertificate=true" />
+	</DBTargets>
+	<ExportJobConfigurations>
+		<ExportJobConfiguration queryname="query1" filenamepattern = "C:\temp\sqlexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_file.txt" exporttype="CSV" append="false"> 
+		<![CDATA[
+   select 1,2,3,'sdfj sdflkj'
+]]>
+		</ExportJobConfiguration>
+		<ExportJobConfiguration queryname="table2" filenamepattern = "C:\temp\sqlexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_file.txt" exporttype="CSV" append="false">
+			<![CDATA[
+   select * from dbo.table_2
+]]>
+		</ExportJobConfiguration>
+		<ExportJobConfiguration queryname="table4" filenamepattern = "C:\temp\sqlexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_{5}_file.txt" exporttype="XMLperRow" append="false">
+			<![CDATA[
+   select * from dbo.table_2
+]]>
+		</ExportJobConfiguration>
+		<ExportJobConfiguration queryname="table3" filenamepattern = "C:\temp\sqlexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_{5}_file.txt" exporttype="FileperRow" append="false">
+			<![CDATA[
+    select col1,[not so] from [dbo].[Table_2]
+]]>
+		</ExportJobConfiguration>
+	</ExportJobConfigurations>
+</SqlExporterTemplate>

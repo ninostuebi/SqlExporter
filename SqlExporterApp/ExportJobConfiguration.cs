@@ -20,7 +20,7 @@ namespace SqlExporter
         public ExportJobConfiguration(string queryName, string filenamePattern, ExportType exportType, string query, bool append, DateTime createdAt)
         {
 
-            if (!Regex.IsMatch(queryName, "^[A-Za-z0-9_]+$"))
+            if (!Regex.IsMatch(queryName, "^[A-Za-z0-9_]+$") && !string.IsNullOrEmpty(queryName))
             {
                 throw new ArgumentOutOfRangeException("query name must not have special characters except _");
             }
@@ -32,8 +32,11 @@ namespace SqlExporter
             this.createdat = createdAt;
         }
 
+        public override string ToString()
+        {
+            return $"{nameof(queryname)}: {queryname}, {nameof(filenamepattern)}: {filenamepattern}, {nameof(exporttype)}: {exporttype},, {nameof(append)}: {append} ";
+        }
 
-       
 
 
     }

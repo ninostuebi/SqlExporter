@@ -10,7 +10,7 @@ namespace SqlExporter
     {
         CSV,
         XMLperRow,
-        FilePerRow
+        FileperRow
 
     }
 }

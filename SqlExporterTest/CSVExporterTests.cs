@@ -14,7 +14,7 @@ namespace SqlExporterTest
         public void verify_CSVExporter_file_Creation()
         {
             var dbConfig = new DBTargetConfiguration("server1", "instance1", "prod", "Server=myServerAddress;Database=myDataBase;");
-            var exportConfig = new ExportJobConfiguration("query 1", @"C:\temp\fileexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_export.txt", ExportType.CSV, "select 1", false, DateTime.MinValue);
+            var exportConfig = new ExportJobConfiguration("query1", @"C:\temp\fileexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_export.txt", ExportType.CSV, "select 1", false, DateTime.MinValue);
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { @"c:\myfile.txt", new MockFileData("Testing is meh.") },
@@ -29,24 +29,23 @@ namespace SqlExporterTest
 
             var t = fileSystem.AllFiles;
 
-            Assert.IsTrue(fileSystem.FileExists("C:\\temp\\fileexporter\\server1\\instance1\\prod\\query 1\\0001-01-01_00-00-00_export.txt"));
+            Assert.IsTrue(fileSystem.FileExists("C:\\temp\\fileexporter\\server1\\instance1\\prod\\query1\\0001-01-01_00-00-00_export.txt"));
 
         }
         [TestMethod]
         public void verify_CSVExporter_file_Creation_fails_if_existing()
         {
             var dbConfig = new DBTargetConfiguration("server1", "instance1", "prod", "Server=myServerAddress;Database=myDataBase;");
-            var exportConfig = new ExportJobConfiguration("query 1", @"C:\temp\fileexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_export.txt", ExportType.CSV, "select 1", false, DateTime.MinValue);
+            var exportConfig = new ExportJobConfiguration("query1", @"C:\temp\fileexporter\{0}\{1}\{2}\{3}\{4:yyyy-MM-dd_HH-mm-ss}_export.txt", ExportType.CSV, "select 1", false, DateTime.MinValue);
             var fileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
-                { @"C:\temp\fileexporter\server1\instance1\prod\query 1\0001-01-01_00-00-00_export.txt", new MockFileData("Testing is meh.") },
+                { @"C:\temp\fileexporter\server1\instance1\prod\query1\0001-01-01_00-00-00_export.txt", new MockFileData("Testing is meh.") },
                
             });
 
             var a = new CSVFileExporter(dbConfig, exportConfig, fileSystem);
          
             Assert.ThrowsException<IOException>(() => a.Initialize(), "file already exists");
-            
             
         }
 

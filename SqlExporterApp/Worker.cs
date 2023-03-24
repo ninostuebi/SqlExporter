@@ -9,16 +9,18 @@ using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace SqlExporter
 {
     public static class Extensions
     {
-        public static string SafeGetString(this IDataReader reader, int colIndex)
+        public static string SafeConvertString(this IDataReader reader, int colIndex)
         {
             if (!reader.IsDBNull(colIndex)) 
             { 
-                return reader.GetString(colIndex);
+                return Convert.ToString(reader[colIndex]) ?? string.Empty;
             }
             return string.Empty;
         }
@@ -44,7 +46,7 @@ namespace SqlExporter
                         break;
                     default:
 
-                        result.Add(reader.SafeGetString(i));
+                        result.Add(reader.SafeConvertString(i));
                         break;
                 }
             }
@@ -78,30 +80,35 @@ namespace SqlExporter
 
             logger.LogInformation("Hi i'm starting some work now!");
             var runTimestamp = DateTime.Now;
-
             var dbConfigs = new List<DBTargetConfiguration>();
             var exportConfigs = new List<ExportJobConfiguration>();
-            var dbConfig = new DBTargetConfiguration("test_server", "test_db", "ACC", "");
-            var exportConfig = new ExportJobConfiguration("query_1", "filepatterntoadd", ExportType.CSV, "select 1", false, runTimestamp);
-            dbConfigs.Add(dbConfig);
-            exportConfigs.Add(exportConfig);
 
-
+            if (!string.IsNullOrEmpty(options.templatePath))
+            {
+                var p = new TemplateParser();
+                p.Parse(options.templatePath, new FileSystem(), runTimestamp);
+                dbConfigs = p.dbConfigs;
+                exportConfigs = p.exportConfigs;
+            }
+            else
+            {
+                //constructing a single call
+                var dbConfig = new DBTargetConfiguration(options.serverName, options.instanceName, options.stageName,options.connectionString);
+                var exportConfig = new ExportJobConfiguration(options.queryname, options.filenamepattern, options.exporttype, options.query, options.append, runTimestamp);
+                dbConfigs.Add(dbConfig);
+                exportConfigs.Add(exportConfig);
+            }
 
             foreach (var dbConf in dbConfigs)
             {
                 //do for all Databases the following
-                //Initialize Connection
                 ExportData(exportConfigs, dbConf);
-
             }
-
-
-
         }
 
         public void ExportData(List<ExportJobConfiguration> exportConfigs, DBTargetConfiguration dbConf)
         {
+            logger.LogInformation("Connecting to {0}", dbConf.ToString());
             using (var dbConn = new SqlConnection(dbConf.connectionString))
             {
                 dbConn.Open();
@@ -112,7 +119,7 @@ namespace SqlExporter
                     var exporter = ExporterFactory.GetExporter(dbConf, export, new FileSystem());
                     try
                     {
-                        
+                        logger.LogInformation("Start Export for {0}", export.ToString());
                         exporter.Initialize();
 
                         using (SqlCommand command = new SqlCommand(exporter.exportConfig.query, dbConn))
@@ -121,7 +128,14 @@ namespace SqlExporter
                             {
                                 while (reader.Read())
                                 {
-                                    exporter.Process(reader.GetRowHeaders(), reader.GetDataRow());
+                                    try
+                                    {
+                                        exporter.Process(reader.GetRowHeaders(), reader.GetDataRow());
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        logger.LogError(e, "issue on exporting {0} {1}, FirstColumn: {2}", export.queryname, dbConf.instanceName, reader.SafeConvertString(0));
+                                    }
    
                                 }
                             }
@@ -137,7 +151,7 @@ namespace SqlExporter
                 }
                 dbConn.Close();
 
-
+                logger.LogInformation("Closed connection to {0}", dbConf.ToString());
 
 
             }

@@ -62,24 +62,28 @@ namespace SqlExporterTest
             header.Add("name");
             header.Add("description");
             header.Add("xml");
+            header.Add("xml ds");
 
             List<string> content1 = new List<string>();
             content1.Add("1");
             content1.Add("name1");
             content1.Add("beschreibung 1");
             content1.Add("<xml><hello id=\"blbl\">content</hello></xml>");
+            content1.Add("name1");
 
             List<string> content2 = new List<string>();
             content2.Add("2");
             content2.Add("name2");
             content2.Add("beschreibung 2");
             content2.Add(" <xml> mit whitespace</xml> ");
+            content2.Add("name1");
 
             List<string> content3 = new List<string>();
             content3.Add("3");
             content3.Add("name3");
             content3.Add("beschreibung 3");
             content3.Add("<xml> mit separator ;</xml> ");
+            content3.Add("name1");
 
 
 
@@ -92,7 +96,7 @@ namespace SqlExporterTest
             a.FinalizeFile();
 
             var t = fileSystem.GetFile(@"C:\temp\fileexporter\server1\instance1\prod\query1\0001-01-01_00-00-00_2_export.txt");
-            Assert.AreEqual(t.TextContents, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<query1>\r\n  <id>2</id>\r\n  <name>name2</name>\r\n  <description>beschreibung 2</description>\r\n  <xml> &lt;xml&gt; mit whitespace&lt;/xml&gt; </xml>\r\n</query1>");
+            Assert.AreEqual(t.TextContents, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<query1>\r\n  <id>2</id>\r\n  <name>name2</name>\r\n  <description>beschreibung 2</description>\r\n  <xml> &lt;xml&gt; mit whitespace&lt;/xml&gt; </xml>\r\n  <xml_ds>name1</xml_ds>\r\n</query1>");
 
         }
     }
