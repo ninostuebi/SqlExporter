@@ -1,6 +1,6 @@
 # SqlExporter
 
-
+see https://nstuebi.hashnode.dev/simple-sql-exporter for HighLevel Documentation
 
 ParamList for FileName Configuration
 Number|ParamName
